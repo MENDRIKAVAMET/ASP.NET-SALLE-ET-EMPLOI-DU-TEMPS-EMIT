@@ -1,0 +1,10 @@
+namespace GestionSalleEmit.DTOs.Salle
+{
+    public class SalleResponseDTO
+    {
+        public int IdSalle { get; set; }
+        public string NomSalle { get; set; }
+        public int Capacite { get; set; }
+        public string TypeSalle { get; set; }
+    }
+}

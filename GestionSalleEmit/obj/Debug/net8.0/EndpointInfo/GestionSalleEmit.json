@@ -1,0 +1,1803 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "GestionSalleEmit",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/EmploisDuTemps": {
+      "get": {
+        "tags": [
+          "EmploisDuTemps"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "EmploisDuTemps"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmploiDuTempsCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmploiDuTempsCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmploiDuTempsCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/EmploisDuTemps/{id}": {
+      "get": {
+        "tags": [
+          "EmploisDuTemps"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "EmploisDuTemps"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmploiDuTempsUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmploiDuTempsUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmploiDuTempsUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "EmploisDuTemps"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Enseignants": {
+      "get": {
+        "tags": [
+          "Enseignants"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Enseignant"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Enseignant"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Enseignant"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Enseignants"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnseignantCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnseignantCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnseignantCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Enseignant"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Enseignant"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Enseignant"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Enseignants/{id}": {
+      "get": {
+        "tags": [
+          "Enseignants"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Enseignant"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Enseignant"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Enseignant"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Enseignants"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Enseignant"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Enseignant"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Enseignant"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Enseignants"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Filieres": {
+      "get": {
+        "tags": [
+          "Filieres"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FiliereResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FiliereResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FiliereResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Filieres"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FiliereCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FiliereCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FiliereCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiliereResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiliereResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiliereResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Filieres/{id}": {
+      "get": {
+        "tags": [
+          "Filieres"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiliereResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiliereResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiliereResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Filieres"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FiliereUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FiliereUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FiliereUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Filieres"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Matieres": {
+      "get": {
+        "tags": [
+          "Matieres"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Matieres"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatiereCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatiereCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatiereCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatiereResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatiereResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatiereResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Matieres/{id}": {
+      "get": {
+        "tags": [
+          "Matieres"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatiereResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatiereResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatiereResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Matieres"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatiereUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatiereUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/MatiereUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Matieres"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Niveaux": {
+      "get": {
+        "tags": [
+          "Niveaux"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NiveauResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NiveauResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NiveauResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Niveaux"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NiveauCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NiveauCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/NiveauCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/NiveauResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NiveauResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NiveauResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Niveaux/{id}": {
+      "get": {
+        "tags": [
+          "Niveaux"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/NiveauResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NiveauResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NiveauResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Niveaux"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NiveauUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NiveauUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/NiveauUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Niveaux"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Salles": {
+      "get": {
+        "tags": [
+          "Salles"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SalleResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SalleResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SalleResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Salles"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SalleCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SalleCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SalleCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalleResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalleResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalleResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Salles/{id}": {
+      "get": {
+        "tags": [
+          "Salles"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalleResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalleResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalleResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Salles"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SalleUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SalleUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SalleUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Salles"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EmploiDuTemps": {
+        "type": "object",
+        "properties": {
+          "idEDT": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "jour": {
+            "type": "string",
+            "nullable": true
+          },
+          "heureDebut": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "heureFin": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "semestre": {
+            "type": "string",
+            "nullable": true
+          },
+          "idSalle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "salle": {
+            "$ref": "#/components/schemas/Salle"
+          },
+          "idEnseignant": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "enseignant": {
+            "$ref": "#/components/schemas/Enseignant"
+          },
+          "idMatiere": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "matiere": {
+            "$ref": "#/components/schemas/Matiere"
+          },
+          "idNiveau": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "niveau": {
+            "$ref": "#/components/schemas/Niveau"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmploiDuTempsCreateDTO": {
+        "required": [
+          "heureDebut",
+          "heureFin",
+          "idEnseignant",
+          "idMatiere",
+          "idNiveau",
+          "idSalle",
+          "jour",
+          "semestre"
+        ],
+        "type": "object",
+        "properties": {
+          "jour": {
+            "maxLength": 20,
+            "minLength": 2,
+            "type": "string"
+          },
+          "heureDebut": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "heureFin": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "semestre": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "idSalle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idEnseignant": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idMatiere": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idNiveau": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmploiDuTempsResponseDTO": {
+        "type": "object",
+        "properties": {
+          "idEDT": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "jour": {
+            "type": "string",
+            "nullable": true
+          },
+          "heureDebut": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "heureFin": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "semestre": {
+            "type": "string",
+            "nullable": true
+          },
+          "idSalle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idEnseignant": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idMatiere": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idNiveau": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmploiDuTempsUpdateDTO": {
+        "required": [
+          "heureDebut",
+          "heureFin",
+          "idEDT",
+          "idEnseignant",
+          "idMatiere",
+          "idNiveau",
+          "idSalle",
+          "jour",
+          "semestre"
+        ],
+        "type": "object",
+        "properties": {
+          "idEDT": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "jour": {
+            "maxLength": 20,
+            "minLength": 2,
+            "type": "string"
+          },
+          "heureDebut": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "heureFin": {
+            "type": "string",
+            "format": "date-span"
+          },
+          "semestre": {
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "string"
+          },
+          "idSalle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idEnseignant": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idMatiere": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idNiveau": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Enseignant": {
+        "type": "object",
+        "properties": {
+          "idEnseignant": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomEnseignant": {
+            "type": "string",
+            "nullable": true
+          },
+          "prenomEnseignant": {
+            "type": "string",
+            "nullable": true
+          },
+          "emailEnseignant": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneEnseignant": {
+            "type": "string",
+            "nullable": true
+          },
+          "gradeEnseignant": {
+            "type": "string",
+            "nullable": true
+          },
+          "enseigners": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Enseigner"
+            },
+            "nullable": true
+          },
+          "emploisDuTemps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmploiDuTemps"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EnseignantCreateDTO": {
+        "required": [
+          "emailEnseignant",
+          "gradeEnseignant",
+          "nomEnseignant",
+          "phoneEnseignant"
+        ],
+        "type": "object",
+        "properties": {
+          "nomEnseignant": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          },
+          "prenomEnseignant": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string",
+            "nullable": true
+          },
+          "emailEnseignant": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "phoneEnseignant": {
+            "minLength": 1,
+            "type": "string",
+            "format": "tel"
+          },
+          "gradeEnseignant": {
+            "maxLength": 50,
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Enseigner": {
+        "type": "object",
+        "properties": {
+          "idEnseignant": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "enseignant": {
+            "$ref": "#/components/schemas/Enseignant"
+          },
+          "idMatiere": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "matiere": {
+            "$ref": "#/components/schemas/Matiere"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Filiere": {
+        "type": "object",
+        "properties": {
+          "idFiliere": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomFiliere": {
+            "type": "string",
+            "nullable": true
+          },
+          "niveaux": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Niveau"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FiliereCreateDTO": {
+        "required": [
+          "nomFiliere"
+        ],
+        "type": "object",
+        "properties": {
+          "nomFiliere": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FiliereResponseDTO": {
+        "type": "object",
+        "properties": {
+          "idFiliere": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomFiliere": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FiliereUpdateDTO": {
+        "required": [
+          "idFiliere",
+          "nomFiliere"
+        ],
+        "type": "object",
+        "properties": {
+          "idFiliere": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomFiliere": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Matiere": {
+        "type": "object",
+        "properties": {
+          "idMatiere": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codeMatiere": {
+            "type": "string",
+            "nullable": true
+          },
+          "nomMatiere": {
+            "type": "string",
+            "nullable": true
+          },
+          "volumeHoraire": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "enseigners": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Enseigner"
+            },
+            "nullable": true
+          },
+          "emploisDuTemps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmploiDuTemps"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MatiereCreateDTO": {
+        "required": [
+          "codeMatiere",
+          "nomMatiere",
+          "volumeHoraire"
+        ],
+        "type": "object",
+        "properties": {
+          "codeMatiere": {
+            "maxLength": 50,
+            "minLength": 2,
+            "type": "string"
+          },
+          "nomMatiere": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          },
+          "volumeHoraire": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MatiereResponseDTO": {
+        "type": "object",
+        "properties": {
+          "idMatiere": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codeMatiere": {
+            "type": "string",
+            "nullable": true
+          },
+          "nomMatiere": {
+            "type": "string",
+            "nullable": true
+          },
+          "volumeHoraire": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "MatiereUpdateDTO": {
+        "required": [
+          "codeMatiere",
+          "idMatiere",
+          "nomMatiere",
+          "volumeHoraire"
+        ],
+        "type": "object",
+        "properties": {
+          "idMatiere": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codeMatiere": {
+            "maxLength": 50,
+            "minLength": 2,
+            "type": "string"
+          },
+          "nomMatiere": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          },
+          "volumeHoraire": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Niveau": {
+        "type": "object",
+        "properties": {
+          "idNiveau": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomNiveau": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFiliere": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "filiere": {
+            "$ref": "#/components/schemas/Filiere"
+          },
+          "emploisDuTemps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmploiDuTemps"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "NiveauCreateDTO": {
+        "required": [
+          "idFiliere",
+          "nomNiveau"
+        ],
+        "type": "object",
+        "properties": {
+          "nomNiveau": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          },
+          "idFiliere": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "NiveauResponseDTO": {
+        "type": "object",
+        "properties": {
+          "idNiveau": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomNiveau": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFiliere": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "NiveauUpdateDTO": {
+        "required": [
+          "idFiliere",
+          "idNiveau",
+          "nomNiveau"
+        ],
+        "type": "object",
+        "properties": {
+          "idNiveau": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomNiveau": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          },
+          "idFiliere": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Salle": {
+        "type": "object",
+        "properties": {
+          "idSalle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomSalle": {
+            "type": "string",
+            "nullable": true
+          },
+          "capacite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "typeSalle": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SalleCreateDTO": {
+        "required": [
+          "capacite",
+          "nomSalle",
+          "typeSalle"
+        ],
+        "type": "object",
+        "properties": {
+          "nomSalle": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          },
+          "capacite": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "typeSalle": {
+            "maxLength": 50,
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SalleResponseDTO": {
+        "type": "object",
+        "properties": {
+          "idSalle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomSalle": {
+            "type": "string",
+            "nullable": true
+          },
+          "capacite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "typeSalle": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SalleUpdateDTO": {
+        "required": [
+          "capacite",
+          "idSalle",
+          "nomSalle",
+          "typeSalle"
+        ],
+        "type": "object",
+        "properties": {
+          "idSalle": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomSalle": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          },
+          "capacite": {
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "typeSalle": {
+            "maxLength": 50,
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
