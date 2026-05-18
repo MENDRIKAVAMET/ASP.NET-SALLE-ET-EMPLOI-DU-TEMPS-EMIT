@@ -19,10 +19,10 @@ namespace GestionSalleEmit
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddScoped<
-                IEmploiDuTempsService,
-                EmploiDuTempsService>();
 
+            // Enregistrement des services pour l'injection de dépendances
+            builder.Services.AddScoped<IEmploiDuTempsService, EmploiDuTempsService>();
+            builder.Services.AddScoped<ISallesService, SallesService>(); // L'enregistrement du service Salles ajouté ici
 
             var app = builder.Build();
 
@@ -36,7 +36,6 @@ namespace GestionSalleEmit
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

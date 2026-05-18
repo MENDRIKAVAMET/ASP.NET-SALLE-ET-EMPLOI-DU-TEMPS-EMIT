@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mendrika\\source\\repos\\GestionSalleEmit\\GestionSalleEmit\\GestionSalleEmit.csproj": {}
+    "C:\\Users\\Najoro Patrick\\source\\repos\\ASP.NET-SALLE-ET-EMPLOI-DU-TEMPS-EMIT\\GestionSalleEmit\\GestionSalleEmit.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mendrika\\source\\repos\\GestionSalleEmit\\GestionSalleEmit\\GestionSalleEmit.csproj": {
+    "C:\\Users\\Najoro Patrick\\source\\repos\\ASP.NET-SALLE-ET-EMPLOI-DU-TEMPS-EMIT\\GestionSalleEmit\\GestionSalleEmit.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mendrika\\source\\repos\\GestionSalleEmit\\GestionSalleEmit\\GestionSalleEmit.csproj",
+        "projectUniqueName": "C:\\Users\\Najoro Patrick\\source\\repos\\ASP.NET-SALLE-ET-EMPLOI-DU-TEMPS-EMIT\\GestionSalleEmit\\GestionSalleEmit.csproj",
         "projectName": "GestionSalleEmit",
-        "projectPath": "C:\\Users\\mendrika\\source\\repos\\GestionSalleEmit\\GestionSalleEmit\\GestionSalleEmit.csproj",
-        "packagesPath": "C:\\Users\\mendrika\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mendrika\\source\\repos\\GestionSalleEmit\\GestionSalleEmit\\obj\\",
+        "projectPath": "C:\\Users\\Najoro Patrick\\source\\repos\\ASP.NET-SALLE-ET-EMPLOI-DU-TEMPS-EMIT\\GestionSalleEmit\\GestionSalleEmit.csproj",
+        "packagesPath": "C:\\Users\\Najoro Patrick\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Najoro Patrick\\source\\repos\\ASP.NET-SALLE-ET-EMPLOI-DU-TEMPS-EMIT\\GestionSalleEmit\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\mendrika\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Najoro Patrick\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -96,7 +96,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
