@@ -1,134 +1,179 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using GestionSalleEmit.Data;
-using GestionSalleEmit.Models;
-using GestionSalleEmit.DTOs.Matiere;
+﻿using GestionSalleEmit.DTOs.Matiere;
+using GestionSalleEmit.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GestionSalleEmit.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class MatieresController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IMatiereService _matiereService;
 
-        public MatieresController(AppDbContext context)
+        public MatieresController(IMatiereService matiereService)
         {
-            _context = context;
+            _matiereService = matiereService;
         }
 
+        // =========================
+        // GET ALL
+        // =========================
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MatiereResponseDTO>>> GetMatieres()
+        public async Task<ActionResult<List<MatiereResponseDTO>>> GetAll()
         {
-            var matieres = await _context.Matieres.ToListAsync();
-            var response = matieres.Select(m => MapToResponseDTO(m)).ToList();
-            return Ok(response);
+            var result = await _matiereService.GetAllAsync();
+            return Ok(result);
         }
 
+        // =========================
+        // GET BY ID
+        // =========================
         [HttpGet("{id}")]
-        public async Task<ActionResult<MatiereResponseDTO>> GetMatiere(int id)
+        public async Task<ActionResult<MatiereResponseDTO>> GetById(int id)
         {
-            var matiere = await _context.Matieres.FindAsync(id);
-            if (matiere == null)
-            {
-                return NotFound(new { message = $"La matière avec l'ID {id} n'existe pas" });
-            }
-            return Ok(MapToResponseDTO(matiere));
+            var result = await _matiereService.GetByIdAsync(id);
+
+            if (result == null)
+                return NotFound($"Matière avec id {id} introuvable");
+
+            return Ok(result);
         }
 
+        // =========================
+        // CREATE
+        // =========================
         [HttpPost]
-        public async Task<ActionResult<MatiereResponseDTO>> PostMatiere(MatiereCreateDTO createDTO)
+        public async Task<ActionResult<MatiereResponseDTO>> Create(
+            [FromBody] MatiereCreateDTO dto)
         {
-            // Vérifier que le code n'existe pas déjà
-            if (_context.Matieres.Any(m => m.CodeMatiere == createDTO.CodeMatiere))
-            {
-                return BadRequest(new { message = "Ce code de matière existe déjà" });
-            }
+            if (dto == null)
+                return BadRequest("Données invalides");
 
-            var matiere = new Matiere
-            {
-                CodeMatiere = createDTO.CodeMatiere,
-                NomMatiere = createDTO.NomMatiere,
-                VolumeHoraire = createDTO.VolumeHoraire
-            };
-
-            _context.Matieres.Add(matiere);
-            await _context.SaveChangesAsync();
-            var responseDTO = MapToResponseDTO(matiere);
-            return CreatedAtAction(nameof(GetMatiere), new { id = matiere.IdMatiere }, responseDTO);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMatiere(int id, MatiereUpdateDTO updateDTO)
-        {
-            if (id != updateDTO.IdMatiere)
-            {
-                return BadRequest(new { message = "L'ID de l'URL ne correspond pas à l'ID du corps de la requête" });
-            }
-            var matiere = await _context.Matieres.FindAsync(id);
-            if (matiere == null)
-            {
-                return NotFound(new { message = $"La matière avec l'ID {id} n'existe pas" });
-            }
-
-            // Vérifier que le code n'existe pas pour une autre matière
-            if (_context.Matieres.Any(m => m.CodeMatiere == updateDTO.CodeMatiere && m.IdMatiere != id))
-            {
-                return BadRequest(new { message = "Ce code de matière existe déjà pour une autre matière" });
-            }
-
-            matiere.CodeMatiere = updateDTO.CodeMatiere;
-            matiere.NomMatiere = updateDTO.NomMatiere;
-            matiere.VolumeHoraire = updateDTO.VolumeHoraire;
-
-            _context.Entry(matiere).State = EntityState.Modified;
             try
             {
-                await _context.SaveChangesAsync();
+                var created = await _matiereService.CreateAsync(dto);
+
+                return CreatedAtAction(
+                    nameof(GetById),
+                    new { id = created.IdMatiere },
+                    created
+                );
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!MatiereExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(ex.Message);
             }
-            return NoContent();
         }
 
+        // =========================
+        // UPDATE
+        // =========================
+        [HttpPut("{id}")]
+        public async Task<ActionResult<MatiereResponseDTO>> Update(
+            int id,
+            [FromBody] MatiereCreateDTO dto)
+        {
+            if (dto == null)
+                return BadRequest("Données invalides");
+
+            try
+            {
+                var updated = await _matiereService.UpdateAsync(id, dto);
+
+                if (updated == null)
+                    return NotFound($"Matière avec id {id} introuvable");
+
+                return Ok(updated);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // =========================
+        // DELETE
+        // =========================
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMatiere(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var matiere = await _context.Matieres.FindAsync(id);
-            if (matiere == null)
+            try
             {
-                return NotFound(new { message = $"La matière avec l'ID {id} n'existe pas" });
+                var deleted = await _matiereService.DeleteAsync(id);
+
+                if (!deleted)
+                    return NotFound($"Matière avec id {id} introuvable");
+
+                return NoContent();
             }
-            _context.Matieres.Remove(matiere);
-            await _context.SaveChangesAsync();
-            return Ok(new { message = $"La matière avec l'ID {id} a été supprimée avec succès" });
-        }
-
-        [NonAction]
-        private bool MatiereExists(int id)
-        {
-            return _context.Matieres.Any(e => e.IdMatiere == id);
-        }
-
-        [NonAction]
-        private MatiereResponseDTO MapToResponseDTO(Matiere matiere)
-        {
-            return new MatiereResponseDTO
+            catch (Exception ex)
             {
-                IdMatiere = matiere.IdMatiere,
-                CodeMatiere = matiere.CodeMatiere,
-                NomMatiere = matiere.NomMatiere,
-                VolumeHoraire = matiere.VolumeHoraire
-            };
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // =========================
+        // SEARCH
+        // =========================
+        [HttpGet("search")]
+        public async Task<ActionResult<List<MatiereResponseDTO>>> Search(
+            [FromQuery] string nomMatiere = "",
+            [FromQuery] string semestre = "")
+        {
+            var result = await _matiereService.SearchAsync(nomMatiere, semestre);
+            return Ok(result);
+        }
+
+        // =========================
+        // GET BY NIVEAU
+        // =========================
+        [HttpGet("niveau/{idNiveau}")]
+        public async Task<ActionResult<List<MatiereResponseDTO>>> GetByNiveau(int idNiveau)
+        {
+            var result = await _matiereService.GetByNiveauAsync(idNiveau);
+            return Ok(result);
+        }
+
+        // =========================
+        // GET BY ENSEIGNANT
+        // =========================
+        [HttpGet("enseignant/{idEnseignant}")]
+        public async Task<ActionResult<List<MatiereResponseDTO>>> GetByEnseignant(int idEnseignant)
+        {
+            var result = await _matiereService.GetByEnseignantAsync(idEnseignant);
+            return Ok(result);
+        }
+
+        // =========================
+        // GET BY SEMESTRE
+        // =========================
+        [HttpGet("semestre/{semestre}")]
+        public async Task<ActionResult<List<MatiereResponseDTO>>> GetBySemestre(string semestre)
+        {
+            var result = await _matiereService.GetBySemestreAsync(semestre);
+            return Ok(result);
+        }
+
+        // =========================
+        // EXISTS
+        // =========================
+        [HttpGet("exists/{id}")]
+        public async Task<ActionResult<bool>> Exists(int id)
+        {
+            var result = await _matiereService.ExistsAsync(id);
+            return Ok(result);
+        }
+
+        // =========================
+        // NOM EXISTE
+        // =========================
+        [HttpGet("exists-nom")]
+        public async Task<ActionResult<bool>> NomExiste([FromQuery] string nomMatiere)
+        {
+            var result = await _matiereService.NomExisteAsync(nomMatiere);
+            return Ok(result);
         }
     }
 }

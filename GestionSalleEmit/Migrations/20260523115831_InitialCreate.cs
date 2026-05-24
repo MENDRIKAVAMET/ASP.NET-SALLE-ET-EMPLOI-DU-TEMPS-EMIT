@@ -34,7 +34,7 @@ namespace GestionSalleEmit.Migrations
                 {
                     IdFiliere = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NomFiliere = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    NomFiliere = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,9 +47,10 @@ namespace GestionSalleEmit.Migrations
                 {
                     IdMatiere = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CodeMatiere = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NomMatiere = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VolumeHoraire = table.Column<int>(type: "int", nullable: false)
+                    NomMatiere = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    VolumeHoraire = table.Column<int>(type: "int", nullable: false),
+                    Semestre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Coefficient = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,23 +73,23 @@ namespace GestionSalleEmit.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Niveaux",
+                name: "Parcours",
                 columns: table => new
                 {
-                    IdNiveau = table.Column<int>(type: "int", nullable: false)
+                    IdParcours = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NomNiveau = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NomParcours = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     IdFiliere = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Niveaux", x => x.IdNiveau);
+                    table.PrimaryKey("PK_Parcours", x => x.IdParcours);
                     table.ForeignKey(
-                        name: "FK_Niveaux_Filieres_IdFiliere",
+                        name: "FK_Parcours_Filieres_IdFiliere",
                         column: x => x.IdFiliere,
                         principalTable: "Filieres",
                         principalColumn: "IdFiliere",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -116,15 +117,41 @@ namespace GestionSalleEmit.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Niveaux",
+                columns: table => new
+                {
+                    IdNiveau = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NomNiveau = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    IdParcours = table.Column<int>(type: "int", nullable: false),
+                    FiliereIdFiliere = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Niveaux", x => x.IdNiveau);
+                    table.ForeignKey(
+                        name: "FK_Niveaux_Filieres_FiliereIdFiliere",
+                        column: x => x.FiliereIdFiliere,
+                        principalTable: "Filieres",
+                        principalColumn: "IdFiliere");
+                    table.ForeignKey(
+                        name: "FK_Niveaux_Parcours_IdParcours",
+                        column: x => x.IdParcours,
+                        principalTable: "Parcours",
+                        principalColumn: "IdParcours",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EmploisDuTemps",
                 columns: table => new
                 {
                     IdEDT = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Jour = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Jour = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     HeureDebut = table.Column<TimeSpan>(type: "time", nullable: false),
                     HeureFin = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Semestre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Semestre = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     IdSalle = table.Column<int>(type: "int", nullable: false),
                     IdEnseignant = table.Column<int>(type: "int", nullable: false),
                     IdMatiere = table.Column<int>(type: "int", nullable: false),
@@ -138,25 +165,25 @@ namespace GestionSalleEmit.Migrations
                         column: x => x.IdEnseignant,
                         principalTable: "Enseignants",
                         principalColumn: "IdEnseignant",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_EmploisDuTemps_Matieres_IdMatiere",
                         column: x => x.IdMatiere,
                         principalTable: "Matieres",
                         principalColumn: "IdMatiere",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_EmploisDuTemps_Niveaux_IdNiveau",
                         column: x => x.IdNiveau,
                         principalTable: "Niveaux",
                         principalColumn: "IdNiveau",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_EmploisDuTemps_Salles_IdSalle",
                         column: x => x.IdSalle,
                         principalTable: "Salles",
                         principalColumn: "IdSalle",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -185,8 +212,18 @@ namespace GestionSalleEmit.Migrations
                 column: "IdMatiere");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Niveaux_IdFiliere",
+                name: "IX_Niveaux_FiliereIdFiliere",
                 table: "Niveaux",
+                column: "FiliereIdFiliere");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Niveaux_IdParcours",
+                table: "Niveaux",
+                column: "IdParcours");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Parcours_IdFiliere",
+                table: "Parcours",
                 column: "IdFiliere");
         }
 
@@ -210,6 +247,9 @@ namespace GestionSalleEmit.Migrations
 
             migrationBuilder.DropTable(
                 name: "Matieres");
+
+            migrationBuilder.DropTable(
+                name: "Parcours");
 
             migrationBuilder.DropTable(
                 name: "Filieres");

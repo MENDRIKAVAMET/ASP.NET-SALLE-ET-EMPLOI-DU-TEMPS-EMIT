@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionSalleEmit.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260517030721_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260524044014_AddUtilisateur")]
+    partial class AddUtilisateur
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,11 +53,13 @@ namespace GestionSalleEmit.Migrations
 
                     b.Property<string>("Jour")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Semestre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("IdEDT");
 
@@ -130,7 +132,8 @@ namespace GestionSalleEmit.Migrations
 
                     b.Property<string>("NomFiliere")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("IdFiliere");
 
@@ -145,11 +148,15 @@ namespace GestionSalleEmit.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdMatiere"));
 
-                    b.Property<string>("CodeMatiere")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Coefficient")
+                        .HasColumnType("int");
 
                     b.Property<string>("NomMatiere")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Semestre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -169,18 +176,47 @@ namespace GestionSalleEmit.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdNiveau"));
 
-                    b.Property<int>("IdFiliere")
+                    b.Property<int?>("FiliereIdFiliere")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdParcours")
                         .HasColumnType("int");
 
                     b.Property<string>("NomNiveau")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("IdNiveau");
 
-                    b.HasIndex("IdFiliere");
+                    b.HasIndex("FiliereIdFiliere");
+
+                    b.HasIndex("IdParcours");
 
                     b.ToTable("Niveaux");
+                });
+
+            modelBuilder.Entity("GestionSalleEmit.Models.Parcours", b =>
+                {
+                    b.Property<int>("IdParcours")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdParcours"));
+
+                    b.Property<int>("IdFiliere")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NomParcours")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("IdParcours");
+
+                    b.HasIndex("IdFiliere");
+
+                    b.ToTable("Parcours");
                 });
 
             modelBuilder.Entity("GestionSalleEmit.Models.Salle", b =>
@@ -207,30 +243,59 @@ namespace GestionSalleEmit.Migrations
                     b.ToTable("Salles");
                 });
 
+            modelBuilder.Entity("GestionSalleEmit.Models.Utilisateur", b =>
+                {
+                    b.Property<int>("IdUtilisateur")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUtilisateur"));
+
+                    b.Property<string>("EmailUtilisateur")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MotDePasseUtilisateur")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NomUtilisateur")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleUtilisateur")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdUtilisateur");
+
+                    b.ToTable("Utilisateurs");
+                });
+
             modelBuilder.Entity("GestionSalleEmit.Models.EmploiDuTemps", b =>
                 {
                     b.HasOne("GestionSalleEmit.Models.Enseignant", "Enseignant")
                         .WithMany("EmploisDuTemps")
                         .HasForeignKey("IdEnseignant")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("GestionSalleEmit.Models.Matiere", "Matiere")
                         .WithMany("EmploisDuTemps")
                         .HasForeignKey("IdMatiere")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("GestionSalleEmit.Models.Niveau", "Niveau")
                         .WithMany("EmploisDuTemps")
                         .HasForeignKey("IdNiveau")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("GestionSalleEmit.Models.Salle", "Salle")
                         .WithMany()
                         .HasForeignKey("IdSalle")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Enseignant");
@@ -263,10 +328,25 @@ namespace GestionSalleEmit.Migrations
 
             modelBuilder.Entity("GestionSalleEmit.Models.Niveau", b =>
                 {
-                    b.HasOne("GestionSalleEmit.Models.Filiere", "Filiere")
+                    b.HasOne("GestionSalleEmit.Models.Filiere", null)
                         .WithMany("Niveaux")
+                        .HasForeignKey("FiliereIdFiliere");
+
+                    b.HasOne("GestionSalleEmit.Models.Parcours", "Parcours")
+                        .WithMany("Niveaux")
+                        .HasForeignKey("IdParcours")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Parcours");
+                });
+
+            modelBuilder.Entity("GestionSalleEmit.Models.Parcours", b =>
+                {
+                    b.HasOne("GestionSalleEmit.Models.Filiere", "Filiere")
+                        .WithMany("Parcours")
                         .HasForeignKey("IdFiliere")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Filiere");
@@ -282,6 +362,8 @@ namespace GestionSalleEmit.Migrations
             modelBuilder.Entity("GestionSalleEmit.Models.Filiere", b =>
                 {
                     b.Navigation("Niveaux");
+
+                    b.Navigation("Parcours");
                 });
 
             modelBuilder.Entity("GestionSalleEmit.Models.Matiere", b =>
@@ -294,6 +376,11 @@ namespace GestionSalleEmit.Migrations
             modelBuilder.Entity("GestionSalleEmit.Models.Niveau", b =>
                 {
                     b.Navigation("EmploisDuTemps");
+                });
+
+            modelBuilder.Entity("GestionSalleEmit.Models.Parcours", b =>
+                {
+                    b.Navigation("Niveaux");
                 });
 #pragma warning restore 612, 618
         }

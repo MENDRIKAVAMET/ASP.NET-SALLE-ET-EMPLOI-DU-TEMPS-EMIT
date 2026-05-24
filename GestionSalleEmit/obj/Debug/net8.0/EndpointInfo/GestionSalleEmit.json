@@ -5,6 +5,80 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/Auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Auth/Secure-test": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/EmploisDuTemps": {
       "get": {
         "tags": [
@@ -12,33 +86,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
@@ -67,24 +115,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -107,24 +138,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmploiDuTempsResponseDTO"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
@@ -169,6 +183,75 @@
         }
       },
       "delete": {
+        "tags": [
+          "EmploisDuTemps"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EmploisDuTemps/enseignant/{id}": {
+      "get": {
+        "tags": [
+          "EmploisDuTemps"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EmploisDuTemps/salle/{id}": {
+      "get": {
+        "tags": [
+          "EmploisDuTemps"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EmploisDuTemps/niveau/{id}": {
+      "get": {
         "tags": [
           "EmploisDuTemps"
         ],
@@ -203,7 +286,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Enseignant"
+                    "$ref": "#/components/schemas/EnseignantResponseDTO"
                   }
                 }
               },
@@ -211,7 +294,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Enseignant"
+                    "$ref": "#/components/schemas/EnseignantResponseDTO"
                   }
                 }
               },
@@ -219,7 +302,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Enseignant"
+                    "$ref": "#/components/schemas/EnseignantResponseDTO"
                   }
                 }
               }
@@ -256,17 +339,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Enseignant"
+                  "$ref": "#/components/schemas/EnseignantResponseDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Enseignant"
+                  "$ref": "#/components/schemas/EnseignantResponseDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Enseignant"
+                  "$ref": "#/components/schemas/EnseignantResponseDTO"
                 }
               }
             }
@@ -296,17 +379,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Enseignant"
+                  "$ref": "#/components/schemas/EnseignantResponseDTO"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Enseignant"
+                  "$ref": "#/components/schemas/EnseignantResponseDTO"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Enseignant"
+                  "$ref": "#/components/schemas/EnseignantResponseDTO"
                 }
               }
             }
@@ -332,24 +415,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Enseignant"
+                "$ref": "#/components/schemas/EnseignantCreateDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Enseignant"
+                "$ref": "#/components/schemas/EnseignantCreateDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Enseignant"
+                "$ref": "#/components/schemas/EnseignantCreateDTO"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnseignantResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnseignantResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnseignantResponseDTO"
+                }
+              }
+            }
           }
         }
       },
@@ -371,6 +471,493 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Enseignants/search": {
+      "get": {
+        "tags": [
+          "Enseignants"
+        ],
+        "parameters": [
+          {
+            "name": "nom",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "prenom",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignantResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignantResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignantResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Enseignants/disponibilite": {
+      "get": {
+        "tags": [
+          "Enseignants"
+        ],
+        "parameters": [
+          {
+            "name": "idEnseignant",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "jour",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "heureDebut",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-span"
+            }
+          },
+          {
+            "name": "heureFin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-span"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Enseignants/matiere/{idMatiere}": {
+      "get": {
+        "tags": [
+          "Enseignants"
+        ],
+        "parameters": [
+          {
+            "name": "idMatiere",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignantResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignantResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignantResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Enseignants/{idEnseignant}/planning": {
+      "get": {
+        "tags": [
+          "Enseignants"
+        ],
+        "parameters": [
+          {
+            "name": "idEnseignant",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignantResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignantResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignantResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Enseigners": {
+      "get": {
+        "tags": [
+          "Enseigners"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignerResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignerResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignerResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Enseigners"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnseignerCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnseignerCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnseignerCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnseignerResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnseignerResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnseignerResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Enseigners/enseignant/{idEnseignant}": {
+      "get": {
+        "tags": [
+          "Enseigners"
+        ],
+        "parameters": [
+          {
+            "name": "idEnseignant",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignerResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignerResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignerResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Enseigners/matiere/{idMatiere}": {
+      "get": {
+        "tags": [
+          "Enseigners"
+        ],
+        "parameters": [
+          {
+            "name": "idMatiere",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignerResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignerResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EnseignerResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Enseigners/{idEnseignant}/{idMatiere}": {
+      "delete": {
+        "tags": [
+          "Enseigners"
+        ],
+        "parameters": [
+          {
+            "name": "idEnseignant",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "idMatiere",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Enseigners/exists": {
+      "get": {
+        "tags": [
+          "Enseigners"
+        ],
+        "parameters": [
+          {
+            "name": "idEnseignant",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "idMatiere",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
           }
         }
       }
@@ -534,7 +1121,24 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiliereResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiliereResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiliereResponseDTO"
+                }
+              }
+            }
           }
         }
       },
@@ -556,6 +1160,131 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Filieres/search": {
+      "get": {
+        "tags": [
+          "Filieres"
+        ],
+        "parameters": [
+          {
+            "name": "nomFiliere",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FiliereResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FiliereResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FiliereResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Filieres/exists/{id}": {
+      "get": {
+        "tags": [
+          "Filieres"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Filieres/exists-nom": {
+      "get": {
+        "tags": [
+          "Filieres"
+        ],
+        "parameters": [
+          {
+            "name": "nomFiliere",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
           }
         }
       }
@@ -702,24 +1431,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MatiereUpdateDTO"
+                "$ref": "#/components/schemas/MatiereCreateDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MatiereUpdateDTO"
+                "$ref": "#/components/schemas/MatiereCreateDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MatiereUpdateDTO"
+                "$ref": "#/components/schemas/MatiereCreateDTO"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatiereResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatiereResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatiereResponseDTO"
+                }
+              }
+            }
           }
         }
       },
@@ -741,6 +1487,286 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Matieres/search": {
+      "get": {
+        "tags": [
+          "Matieres"
+        ],
+        "parameters": [
+          {
+            "name": "nomMatiere",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          },
+          {
+            "name": "semestre",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Matieres/niveau/{idNiveau}": {
+      "get": {
+        "tags": [
+          "Matieres"
+        ],
+        "parameters": [
+          {
+            "name": "idNiveau",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Matieres/enseignant/{idEnseignant}": {
+      "get": {
+        "tags": [
+          "Matieres"
+        ],
+        "parameters": [
+          {
+            "name": "idEnseignant",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Matieres/semestre/{semestre}": {
+      "get": {
+        "tags": [
+          "Matieres"
+        ],
+        "parameters": [
+          {
+            "name": "semestre",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MatiereResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Matieres/exists/{id}": {
+      "get": {
+        "tags": [
+          "Matieres"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Matieres/exists-nom": {
+      "get": {
+        "tags": [
+          "Matieres"
+        ],
+        "parameters": [
+          {
+            "name": "nomMatiere",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
           }
         }
       }
@@ -887,24 +1913,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NiveauUpdateDTO"
+                "$ref": "#/components/schemas/NiveauCreateDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/NiveauUpdateDTO"
+                "$ref": "#/components/schemas/NiveauCreateDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/NiveauUpdateDTO"
+                "$ref": "#/components/schemas/NiveauCreateDTO"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/NiveauResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NiveauResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NiveauResponseDTO"
+                }
+              }
+            }
           }
         }
       },
@@ -926,6 +1969,555 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Niveaux/search": {
+      "get": {
+        "tags": [
+          "Niveaux"
+        ],
+        "parameters": [
+          {
+            "name": "nomNiveau",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NiveauResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NiveauResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NiveauResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Niveaux/exists/{id}": {
+      "get": {
+        "tags": [
+          "Niveaux"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Niveaux/exists-nom": {
+      "get": {
+        "tags": [
+          "Niveaux"
+        ],
+        "parameters": [
+          {
+            "name": "nomNiveau",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Niveaux/{id}/matieres": {
+      "get": {
+        "tags": [
+          "Niveaux"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Niveaux/{id}/emploi-du-temps": {
+      "get": {
+        "tags": [
+          "Niveaux"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Parcours": {
+      "get": {
+        "tags": [
+          "Parcours"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParcoursResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParcoursResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParcoursResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Parcours"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParcoursCreateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParcoursCreateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParcoursCreateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParcoursResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParcoursResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParcoursResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Parcours/{id}": {
+      "get": {
+        "tags": [
+          "Parcours"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParcoursResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParcoursResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParcoursResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Parcours"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParcoursUpdateDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParcoursUpdateDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParcoursUpdateDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParcoursResponseDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParcoursResponseDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParcoursResponseDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Parcours"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Parcours/search": {
+      "get": {
+        "tags": [
+          "Parcours"
+        ],
+        "parameters": [
+          {
+            "name": "nomParcours",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": ""
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParcoursResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParcoursResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParcoursResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Parcours/exists/{id}": {
+      "get": {
+        "tags": [
+          "Parcours"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Parcours/exists-nom": {
+      "get": {
+        "tags": [
+          "Parcours"
+        ],
+        "parameters": [
+          {
+            "name": "nomParcours",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Parcours/filiere/{idFiliere}": {
+      "get": {
+        "tags": [
+          "Parcours"
+        ],
+        "parameters": [
+          {
+            "name": "idFiliere",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParcoursResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParcoursResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParcoursResponseDTO"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1089,7 +2681,24 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalleUpdateDTO"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalleUpdateDTO"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SalleUpdateDTO"
+                }
+              }
+            }
           }
         }
       },
@@ -1114,64 +2723,130 @@
           }
         }
       }
+    },
+    "/api/Salles/search": {
+      "post": {
+        "tags": [
+          "Salles"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SalleFilter"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SalleFilter"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SalleFilter"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SalleResponseDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SalleResponseDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SalleResponseDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Salles/disponibilite": {
+      "get": {
+        "tags": [
+          "Salles"
+        ],
+        "parameters": [
+          {
+            "name": "idSalle",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "jour",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "heureDebut",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-span"
+            }
+          },
+          {
+            "name": "heureFin",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-span"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "EmploiDuTemps": {
-        "type": "object",
-        "properties": {
-          "idEDT": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "jour": {
-            "type": "string",
-            "nullable": true
-          },
-          "heureDebut": {
-            "type": "string",
-            "format": "date-span"
-          },
-          "heureFin": {
-            "type": "string",
-            "format": "date-span"
-          },
-          "semestre": {
-            "type": "string",
-            "nullable": true
-          },
-          "idSalle": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "salle": {
-            "$ref": "#/components/schemas/Salle"
-          },
-          "idEnseignant": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "enseignant": {
-            "$ref": "#/components/schemas/Enseignant"
-          },
-          "idMatiere": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "matiere": {
-            "$ref": "#/components/schemas/Matiere"
-          },
-          "idNiveau": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "niveau": {
-            "$ref": "#/components/schemas/Niveau"
-          }
-        },
-        "additionalProperties": false
-      },
       "EmploiDuTempsCreateDTO": {
         "required": [
           "heureDebut",
@@ -1202,48 +2877,6 @@
             "maxLength": 50,
             "minLength": 1,
             "type": "string"
-          },
-          "idSalle": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "idEnseignant": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "idMatiere": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "idNiveau": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "EmploiDuTempsResponseDTO": {
-        "type": "object",
-        "properties": {
-          "idEDT": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "jour": {
-            "type": "string",
-            "nullable": true
-          },
-          "heureDebut": {
-            "type": "string",
-            "format": "date-span"
-          },
-          "heureFin": {
-            "type": "string",
-            "format": "date-span"
-          },
-          "semestre": {
-            "type": "string",
-            "nullable": true
           },
           "idSalle": {
             "type": "integer",
@@ -1319,50 +2952,6 @@
         },
         "additionalProperties": false
       },
-      "Enseignant": {
-        "type": "object",
-        "properties": {
-          "idEnseignant": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nomEnseignant": {
-            "type": "string",
-            "nullable": true
-          },
-          "prenomEnseignant": {
-            "type": "string",
-            "nullable": true
-          },
-          "emailEnseignant": {
-            "type": "string",
-            "nullable": true
-          },
-          "phoneEnseignant": {
-            "type": "string",
-            "nullable": true
-          },
-          "gradeEnseignant": {
-            "type": "string",
-            "nullable": true
-          },
-          "enseigners": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Enseigner"
-            },
-            "nullable": true
-          },
-          "emploisDuTemps": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/EmploiDuTemps"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "EnseignantCreateDTO": {
         "required": [
           "emailEnseignant",
@@ -1401,42 +2990,79 @@
         },
         "additionalProperties": false
       },
-      "Enseigner": {
+      "EnseignantResponseDTO": {
         "type": "object",
         "properties": {
           "idEnseignant": {
             "type": "integer",
             "format": "int32"
           },
-          "enseignant": {
-            "$ref": "#/components/schemas/Enseignant"
+          "nomEnseignant": {
+            "type": "string",
+            "nullable": true
+          },
+          "prenomEnseignant": {
+            "type": "string",
+            "nullable": true
+          },
+          "emailEnseignant": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneEnseignant": {
+            "type": "string",
+            "nullable": true
+          },
+          "gradeEnseignant": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EnseignerCreateDTO": {
+        "required": [
+          "idEnseignant",
+          "idMatiere"
+        ],
+        "type": "object",
+        "properties": {
+          "idEnseignant": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "idMatiere": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EnseignerResponseDTO": {
+        "type": "object",
+        "properties": {
+          "idEnseignant": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nomEnseignant": {
+            "type": "string",
+            "nullable": true
+          },
+          "prenomEnseignant": {
+            "type": "string",
+            "nullable": true
           },
           "idMatiere": {
             "type": "integer",
             "format": "int32"
           },
-          "matiere": {
-            "$ref": "#/components/schemas/Matiere"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Filiere": {
-        "type": "object",
-        "properties": {
-          "idFiliere": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nomFiliere": {
+          "nomMatiere": {
             "type": "string",
-            "nullable": true
-          },
-          "niveaux": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Niveau"
-            },
             "nullable": true
           }
         },
@@ -1489,51 +3115,38 @@
         },
         "additionalProperties": false
       },
-      "Matiere": {
+      "LoginDTO": {
+        "required": [
+          "email",
+          "motDePasse"
+        ],
         "type": "object",
         "properties": {
-          "idMatiere": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "codeMatiere": {
+          "email": {
+            "maxLength": 100,
+            "minLength": 0,
             "type": "string",
-            "nullable": true
+            "format": "email"
           },
-          "nomMatiere": {
+          "motDePasse": {
+            "maxLength": 100,
+            "minLength": 6,
             "type": "string",
-            "nullable": true
-          },
-          "volumeHoraire": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "enseigners": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Enseigner"
-            },
-            "nullable": true
-          },
-          "emploisDuTemps": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/EmploiDuTemps"
-            },
-            "nullable": true
+            "format": "password"
           }
         },
         "additionalProperties": false
       },
       "MatiereCreateDTO": {
         "required": [
-          "codeMatiere",
+          "coefficient",
           "nomMatiere",
+          "semestre",
           "volumeHoraire"
         ],
         "type": "object",
         "properties": {
-          "codeMatiere": {
+          "semestre": {
             "maxLength": 50,
             "minLength": 2,
             "type": "string"
@@ -1545,6 +3158,12 @@
           },
           "volumeHoraire": {
             "maximum": 1000,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "coefficient": {
+            "maximum": 100,
             "minimum": 1,
             "type": "integer",
             "format": "int32"
@@ -1559,7 +3178,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "codeMatiere": {
+          "semestre": {
             "type": "string",
             "nullable": true
           },
@@ -1570,73 +3189,17 @@
           "volumeHoraire": {
             "type": "integer",
             "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "MatiereUpdateDTO": {
-        "required": [
-          "codeMatiere",
-          "idMatiere",
-          "nomMatiere",
-          "volumeHoraire"
-        ],
-        "type": "object",
-        "properties": {
-          "idMatiere": {
+          },
+          "coefficient": {
             "type": "integer",
             "format": "int32"
-          },
-          "codeMatiere": {
-            "maxLength": 50,
-            "minLength": 2,
-            "type": "string"
-          },
-          "nomMatiere": {
-            "maxLength": 100,
-            "minLength": 2,
-            "type": "string"
-          },
-          "volumeHoraire": {
-            "maximum": 1000,
-            "minimum": 1,
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Niveau": {
-        "type": "object",
-        "properties": {
-          "idNiveau": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nomNiveau": {
-            "type": "string",
-            "nullable": true
-          },
-          "idFiliere": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "filiere": {
-            "$ref": "#/components/schemas/Filiere"
-          },
-          "emploisDuTemps": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/EmploiDuTemps"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
       },
       "NiveauCreateDTO": {
         "required": [
-          "idFiliere",
+          "idParcours",
           "nomNiveau"
         ],
         "type": "object",
@@ -1646,7 +3209,7 @@
             "minLength": 2,
             "type": "string"
           },
-          "idFiliere": {
+          "idParcours": {
             "type": "integer",
             "format": "int32"
           }
@@ -1664,55 +3227,105 @@
             "type": "string",
             "nullable": true
           },
-          "idFiliere": {
+          "idParcours": {
             "type": "integer",
             "format": "int32"
           }
         },
         "additionalProperties": false
       },
-      "NiveauUpdateDTO": {
+      "ParcoursCreateDTO": {
         "required": [
           "idFiliere",
-          "idNiveau",
-          "nomNiveau"
+          "nomParcours"
         ],
         "type": "object",
         "properties": {
-          "idNiveau": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nomNiveau": {
+          "nomParcours": {
             "maxLength": 100,
             "minLength": 2,
             "type": "string"
           },
           "idFiliere": {
+            "maximum": 2147483647,
+            "minimum": 1,
             "type": "integer",
             "format": "int32"
           }
         },
         "additionalProperties": false
       },
-      "Salle": {
+      "ParcoursResponseDTO": {
         "type": "object",
         "properties": {
-          "idSalle": {
+          "idParcours": {
             "type": "integer",
             "format": "int32"
           },
-          "nomSalle": {
+          "nomParcours": {
             "type": "string",
             "nullable": true
           },
-          "capacite": {
+          "idFiliere": {
             "type": "integer",
             "format": "int32"
           },
-          "typeSalle": {
+          "filiere": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ParcoursUpdateDTO": {
+        "type": "object",
+        "properties": {
+          "nomParcours": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFiliere": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegisterDTO": {
+        "required": [
+          "confirmMotDePasse",
+          "email",
+          "motDePasse",
+          "nom",
+          "role"
+        ],
+        "type": "object",
+        "properties": {
+          "nom": {
+            "maxLength": 100,
+            "minLength": 2,
+            "type": "string"
+          },
+          "email": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "motDePasse": {
+            "maxLength": 100,
+            "minLength": 8,
+            "type": "string",
+            "format": "password"
+          },
+          "confirmMotDePasse": {
+            "maxLength": 100,
+            "minLength": 8,
+            "type": "string",
+            "format": "password"
+          },
+          "role": {
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false
@@ -1740,6 +3353,60 @@
             "maxLength": 50,
             "minLength": 2,
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SalleFilter": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "capacite": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "jour": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "heureDebut": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "heureFin": {
+            "type": "string",
+            "format": "date-span",
+            "nullable": true
+          },
+          "semestre": {
+            "type": "string",
+            "nullable": true
+          },
+          "idNiveau": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idMatiere": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idEnseignant": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idEtudiant": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1798,6 +3465,19 @@
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Entrer : Bearer {votre token}",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

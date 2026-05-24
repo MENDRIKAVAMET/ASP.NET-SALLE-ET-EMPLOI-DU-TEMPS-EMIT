@@ -1,1 +1,9 @@
 .vs/
+bin/
+obj/
+*.user
+*.suo
+publish/
+node_modules/
+appsettings.Development.json
+.log

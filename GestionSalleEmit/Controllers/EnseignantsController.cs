@@ -1,123 +1,188 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using GestionSalleEmit.Data;
-using GestionSalleEmit.Models;
-using GestionSalleEmit.DTOs;
 using GestionSalleEmit.DTOs.Enseignant;
+using GestionSalleEmit.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GestionSalleEmit.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class EnseignantsController : ControllerBase
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IEnseignantService _enseignantService;
 
-        public EnseignantsController(AppDbContext context)
+        public EnseignantsController(IEnseignantService enseignantService)
         {
-            _dbContext = context;
+            _enseignantService = enseignantService;
         }
 
-        // GET: api/enseignants
+        // =========================
+        // GET ALL
+        // =========================
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Enseignant>>> GetEnseignants()
+        public async Task<ActionResult<List<EnseignantResponseDTO>>> GetAll()
         {
-            return await _dbContext.Enseignants.ToListAsync();
+            var result = await _enseignantService.GetAllAsync();
+
+            return Ok(result);
         }
 
-        // GET: api/enseignants/5
+        // =========================
+        // GET BY ID
+        // =========================
         [HttpGet("{id}")]
-        public async Task<ActionResult<Enseignant>> GetEnseignant(int id)
+        public async Task<ActionResult<EnseignantResponseDTO>> GetById(int id)
         {
-            var enseignant = await _dbContext.Enseignants.FindAsync(id);
+            var result = await _enseignantService.GetByIdAsync(id);
 
-            if (enseignant == null)
-            {
-                return NotFound();
-            }
+            if (result == null)
+                return NotFound($"Enseignant avec id {id} introuvable");
 
-            return enseignant;
+            return Ok(result);
         }
 
-        // PUT: api/enseignants/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEnseignant(int id, Enseignant enseignant)
+        // =========================
+        // CREATE
+        // =========================
+        [HttpPost]
+        public async Task<ActionResult<EnseignantResponseDTO>> Create(
+            [FromBody] EnseignantCreateDTO dto)
         {
-            if (id != enseignant.IdEnseignant)
-            {
-                return BadRequest();
-            }
-
-            _dbContext.Entry(enseignant).State = EntityState.Modified;
+            if (dto == null)
+                return BadRequest("Données invalides");
 
             try
             {
-                await _dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EnseignantExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                var created = await _enseignantService.CreateAsync(dto);
 
-            return NoContent();
+                return CreatedAtAction(
+                    nameof(GetById),
+                    new { id = created.IdEnseignant },
+                    created
+                );
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // POST: api/enseignants
-        [HttpPost]
-        public async Task<ActionResult<Enseignant>> PostEnseignant(EnseignantCreateDTO dto)
+        // =========================
+        // UPDATE
+        // =========================
+        [HttpPut("{id}")]
+        public async Task<ActionResult<EnseignantResponseDTO>> Update(
+            int id,
+            [FromBody] EnseignantCreateDTO dto)
         {
-            var enseignant = new Enseignant
+            if (dto == null)
+                return BadRequest("Données invalides");
+
+            try
             {
-                NomEnseignant = dto.NomEnseignant,
-                PrenomEnseignant = dto.PrenomEnseignant,
-                EmailEnseignant = dto.EmailEnseignant,
-                PhoneEnseignant = dto.PhoneEnseignant,
-                GradeEnseignant = dto.GradeEnseignant
-            };
+                var updated = await _enseignantService.UpdateAsync(id, dto);
 
-            _dbContext.Enseignants.Add(enseignant);
-            await _dbContext.SaveChangesAsync();
+                if (updated == null)
+                    return NotFound($"Enseignant avec id {id} introuvable");
 
-            var response = new EnseignantResponseDTO
+                return Ok(updated);
+            }
+            catch (Exception ex)
             {
-                IdEnseignant = enseignant.IdEnseignant,
-                NomEnseignant = enseignant.NomEnseignant,
-                PrenomEnseignant = enseignant.PrenomEnseignant,
-                EmailEnseignant = enseignant.EmailEnseignant,
-                PhoneEnseignant = enseignant.PhoneEnseignant,
-                GradeEnseignant = enseignant.GradeEnseignant
-            };
-
-            return CreatedAtAction(nameof(GetEnseignant), new { id = enseignant.IdEnseignant }, response);
+                return BadRequest(ex.Message);
+            }
         }
 
-        // DELETE: api/enseignants/5
+        // =========================
+        // DELETE
+        // =========================
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEnseignant(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var enseignant = await _dbContext.Enseignants.FindAsync(id);
-            if (enseignant == null)
+            try
             {
-                return NotFound();
+                var deleted = await _enseignantService.DeleteAsync(id);
+
+                if (!deleted)
+                    return NotFound($"Enseignant avec id {id} introuvable");
+
+                return NoContent();
             }
-
-            _dbContext.Enseignants.Remove(enseignant);
-            await _dbContext.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        [NonAction]
-        private bool EnseignantExists(int id)
+        // =========================
+        // SEARCH
+        // =========================
+        [HttpGet("search")]
+        public async Task<ActionResult<List<EnseignantResponseDTO>>> Search(
+            [FromQuery] string nom = "",
+            [FromQuery] string prenom = "")
         {
-            return _dbContext.Enseignants.Any(e => e.IdEnseignant == id);
+            var result = await _enseignantService.SearchAsync(nom, prenom);
+
+            return Ok(result);
+        }
+
+        // =========================
+        // DISPONIBILITE
+        // =========================
+        [HttpGet("disponibilite")]
+        public async Task<ActionResult<List<bool>>> IsDisponible(
+            int idEnseignant,
+            DateTime jour,
+            TimeSpan heureDebut,
+            TimeSpan heureFin)
+        {
+            try
+            {
+                var result = await _enseignantService.IsDisponibleAsync(
+                    idEnseignant,
+                    jour,
+                    heureDebut,
+                    heureFin);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // =========================
+        // GET BY MATIERE
+        // =========================
+        [HttpGet("matiere/{idMatiere}")]
+        public async Task<ActionResult<List<EnseignantResponseDTO>>> GetByMatiere(
+            int idMatiere)
+        {
+            var result = await _enseignantService.GetByMatiereAsync(idMatiere);
+
+            return Ok(result);
+        }
+
+        // =========================
+        // PLANNING
+        // =========================
+        [HttpGet("{idEnseignant}/planning")]
+        public async Task<ActionResult<List<EnseignantResponseDTO>>> GetPlanning(
+            int idEnseignant)
+        {
+            try
+            {
+                var result = await _enseignantService.GetPlanningAsync(idEnseignant);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -1,130 +1,185 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using GestionSalleEmit.Data;
-using GestionSalleEmit.Models;
-using GestionSalleEmit.DTOs.Niveau;
+﻿using GestionSalleEmit.DTOs.Niveau;
+using GestionSalleEmit.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GestionSalleEmit.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     public class NiveauxController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly INiveauService _niveauService;
 
-        public NiveauxController(AppDbContext context)
+        public NiveauxController(INiveauService niveauService)
         {
-            _context = context;
+            _niveauService = niveauService;
         }
 
+        // =========================
+        // GET ALL
+        // =========================
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<NiveauResponseDTO>>> GetNiveaux()
+        public async Task<ActionResult<List<NiveauResponseDTO>>> GetAll()
         {
-            var niveaux = await _context.Niveaux.ToListAsync();
-            var response = niveaux.Select(n => MapToResponseDTO(n)).ToList();
-            return Ok(response);
+            var result = await _niveauService.GetAllAsync();
+            return Ok(result);
         }
 
+        // =========================
+        // GET BY ID
+        // =========================
         [HttpGet("{id}")]
-        public async Task<ActionResult<NiveauResponseDTO>> GetNiveau(int id)
+        public async Task<ActionResult<NiveauResponseDTO>> GetById(int id)
         {
-            var niveau = await _context.Niveaux.FindAsync(id);
-            if (niveau == null)
-            {
-                return NotFound(new { message = $"Le niveau avec l'ID {id} n'existe pas" });
-            }
-            return Ok(MapToResponseDTO(niveau));
+            var result = await _niveauService.GetByIdAsync(id);
+
+            if (result == null)
+                return NotFound($"Niveau avec id {id} introuvable");
+
+            return Ok(result);
         }
 
+        // =========================
+        // CREATE
+        // =========================
         [HttpPost]
-        public async Task<ActionResult<NiveauResponseDTO>> PostNiveau(NiveauCreateDTO createDTO)
+        public async Task<ActionResult<NiveauResponseDTO>> Create(
+            [FromBody] NiveauCreateDTO dto)
         {
-            // Vérifier que la filière existe
-            if (!_context.Filieres.Any(f => f.IdFiliere == createDTO.IdFiliere))
-            {
-                return BadRequest(new { message = $"La filière avec l'ID {createDTO.IdFiliere} n'existe pas" });
-            }
+            if (dto == null)
+                return BadRequest("Données invalides");
 
-            var niveau = new Niveau
-            {
-                NomNiveau = createDTO.NomNiveau,
-                IdFiliere = createDTO.IdFiliere
-            };
-            _context.Niveaux.Add(niveau);
-            await _context.SaveChangesAsync();
-            var responseDTO = MapToResponseDTO(niveau);
-            return CreatedAtAction(nameof(GetNiveau), new { id = niveau.IdNiveau }, responseDTO);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutNiveau(int id, NiveauUpdateDTO updateDTO)
-        {
-            if (id != updateDTO.IdNiveau)
-            {
-                return BadRequest(new { message = "L'ID de l'URL ne correspond pas à l'ID du corps de la requête" });
-            }
-            var niveau = await _context.Niveaux.FindAsync(id);
-            if (niveau == null)
-            {
-                return NotFound(new { message = $"Le niveau avec l'ID {id} n'existe pas" });
-            }
-
-            // Vérifier que la filière existe
-            if (!_context.Filieres.Any(f => f.IdFiliere == updateDTO.IdFiliere))
-            {
-                return BadRequest(new { message = $"La filière avec l'ID {updateDTO.IdFiliere} n'existe pas" });
-            }
-
-            niveau.NomNiveau = updateDTO.NomNiveau;
-            niveau.IdFiliere = updateDTO.IdFiliere;
-
-            _context.Entry(niveau).State = EntityState.Modified;
             try
             {
-                await _context.SaveChangesAsync();
+                var created = await _niveauService.CreateAsync(dto);
+
+                return CreatedAtAction(
+                    nameof(GetById),
+                    new { id = created.IdNiveau },
+                    created
+                );
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!NiveauExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return Problem(detail: ex.Message, statusCode: 400);
             }
-            return NoContent();
         }
 
+        // =========================
+        // UPDATE
+        // =========================
+        [HttpPut("{id}")]
+        public async Task<ActionResult<NiveauResponseDTO>> Update(
+            int id,
+            [FromBody] NiveauCreateDTO dto)
+        {
+            if (dto == null)
+                return BadRequest("Données invalides");
+
+            try
+            {
+                var updated = await _niveauService.UpdateAsync(id, dto);
+
+                if (updated == null)
+                    return NotFound($"Niveau avec id {id} introuvable");
+
+                return Ok(updated);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 400);
+            }
+        }
+
+        // =========================
+        // DELETE
+        // =========================
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteNiveau(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var niveau = await _context.Niveaux.FindAsync(id);
-            if (niveau == null)
+            try
             {
-                return NotFound(new { message = $"Le niveau avec l'ID {id} n'existe pas" });
+                var deleted = await _niveauService.DeleteAsync(id);
+
+                if (!deleted)
+                    return NotFound($"Niveau avec id {id} introuvable");
+
+                return NoContent();
             }
-            _context.Niveaux.Remove(niveau);
-            await _context.SaveChangesAsync();
-            return Ok(new { message = $"Le niveau avec l'ID {id} a été supprimé avec succès" });
-        }
-
-        [NonAction]
-        private bool NiveauExists(int id)
-        {
-            return _context.Niveaux.Any(e => e.IdNiveau == id);
-        }
-
-        [NonAction]
-        private NiveauResponseDTO MapToResponseDTO(Niveau niveau)
-        {
-            return new NiveauResponseDTO
+            catch (Exception ex)
             {
-                IdNiveau = niveau.IdNiveau,
-                NomNiveau = niveau.NomNiveau,
-                IdFiliere = niveau.IdFiliere
-            };
+                return Problem(detail: ex.Message, statusCode: 400);
+            }
+        }
+
+        // =========================
+        // SEARCH
+        // =========================
+        [HttpGet("search")]
+        public async Task<ActionResult<List<NiveauResponseDTO>>> Search(
+            [FromQuery] string nomNiveau = "")
+        {
+            var result = await _niveauService.SearchAsync(nomNiveau);
+            return Ok(result);
+        }
+
+        // =========================
+        // EXISTS
+        // =========================
+        [HttpGet("exists/{id}")]
+        public async Task<ActionResult<bool>> Exists(int id)
+        {
+            var result = await _niveauService.ExistsAsync(id);
+            return Ok(result);
+        }
+
+        // =========================
+        // NOM EXISTE
+        // =========================
+        [HttpGet("exists-nom")]
+        public async Task<ActionResult<bool>> NomExiste(
+            [FromQuery] string nomNiveau)
+        {
+            var result = await _niveauService.NomExisteAsync(nomNiveau);
+            return Ok(result);
+        }
+
+        // =========================
+        // MATIERES D'UN NIVEAU
+        // =========================
+        [HttpGet("{id}/matieres")]
+        public async Task<ActionResult> GetMatieres(int id)
+        {
+            try
+            {
+                var result = await _niveauService.GetMatieresAsync(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Problem(detail: ex.Message, statusCode: 400);
+            }
+        }
+
+        // =========================
+        // EMPLOI DU TEMPS D'UN NIVEAU
+        // =========================
+        [HttpGet("{id}/emploi-du-temps")]
+        public async Task<ActionResult> GetEmploiDuTemps(int id)
+        {
+            try
+            {
+                var result = await _niveauService.GetEmploiDuTempsAsync(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Problem(
+                    detail: ex.Message,
+                    statusCode: 400);
+            }
         }
     }
 }

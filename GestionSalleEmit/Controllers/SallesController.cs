@@ -1,120 +1,129 @@
-﻿using GestionSalleEmit.Data;
-using Microsoft.AspNetCore.Mvc;
-using GestionSalleEmit.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using GestionSalleEmit.DTOs;
 using GestionSalleEmit.DTOs.Salle;
+using GestionSalleEmit.Filters;
+using GestionSalleEmit.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace GestionSalleEmit.Controllers
+namespace GestionSalleEmit.Controllers;
+
+[Authorize]
+[ApiController]
+[Route("api/[controller]")]
+public class SallesController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SallesController : ControllerBase
+    private readonly ISalleService _salleService;
+
+    public SallesController(ISalleService salleService)
     {
-        private readonly AppDbContext _context;
-        public SallesController(AppDbContext context)
+        _salleService = salleService;
+    }
+
+    // =========================
+    // GET ALL
+    // =========================
+    [HttpGet]
+    public async Task<ActionResult<List<SalleResponseDTO>>> GetAll()
+    {
+        var result = await _salleService.GetAllAsync();
+        return Ok(result);
+    }
+
+    // =========================
+    // GET BY ID
+    // =========================
+    [HttpGet("{id}")]
+    public async Task<ActionResult<SalleResponseDTO>> GetById(int id)
+    {
+        var result = await _salleService.GetByIdAsync(id);
+
+        if (result == null)
+            return NotFound($"Salle avec id {id} introuvable");
+
+        return Ok(result);
+    }
+
+    // =========================
+    // CREATE
+    // =========================
+    [HttpPost]
+    public async Task<ActionResult<SalleResponseDTO>> Create([FromBody] SalleCreateDTO dto)
+    {
+        if (dto == null)
+            return BadRequest("Données invalides");
+        try
         {
-            _context = context;
+            var created = await _salleService.CreateAsync(dto);
+
+            return CreatedAtAction(
+                nameof(GetById),
+                new { id = created.IdSalle },
+                created
+            );
         }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<SalleResponseDTO>>> GetSalles()
-        {
-            var salles = await _context.Salles.ToListAsync();
-            var response = salles.Select(s => MapToResponseDTO(s)).ToList();
-            return Ok(response);
+        catch (Exception ex) {
+            return BadRequest(ex.Message);
         }
+    }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<SalleResponseDTO>> GetSalle(int id)
-        {
-            var salle = await _context.Salles.FindAsync(id);
-            if (salle == null)
-            {
-                return NotFound(new { message = $"La salle avec l'ID {id} n'existe pas" });
-            }
-            return Ok(MapToResponseDTO(salle));
-        }
+    // =========================
+    // UPDATE
+    // =========================
+    [HttpPut("{id}")]
+    public async Task<ActionResult<SalleUpdateDTO>> Update(int id, [FromBody] SalleUpdateDTO dto)
+    {
+        if (dto == null)
+            return BadRequest("Données invalides");
 
-        [HttpPost]
-        public async Task<ActionResult<SalleResponseDTO>> PostSalle(SalleCreateDTO createDTO)
-        {
-            var salle = new Salle
-            {
-                NomSalle = createDTO.NomSalle,
-                Capacite = createDTO.Capacite,
-                TypeSalle = createDTO.TypeSalle
-            };
-            _context.Salles.Add(salle);
-            await _context.SaveChangesAsync();
-            var responseDTO = MapToResponseDTO(salle);
-            return CreatedAtAction(nameof(GetSalle), new { id = salle.IdSalle }, responseDTO);
-        }
+        var updated = await _salleService.UpdateAsync(id, dto);
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutSalle(int id, SalleUpdateDTO updateDTO)
-        {
-            if (id != updateDTO.IdSalle)
-            {
-                return BadRequest(new { message = "L'ID de l'URL ne correspond pas à l'ID du corps de la requête" });
-            }
-            var salle = await _context.Salles.FindAsync(id);
-            if (salle == null)
-            {
-                return NotFound(new { message = $"La salle avec l'ID {id} n'existe pas" });
-            }
+        if (updated == null)
+            return NotFound($"Salle avec id {id} introuvable");
 
-            salle.NomSalle = updateDTO.NomSalle;
-            salle.Capacite = updateDTO.Capacite;
-            salle.TypeSalle = updateDTO.TypeSalle;
+        return Ok(updated);
+    }
 
-            _context.Entry(salle).State = EntityState.Modified;
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SalleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return NoContent();
-        }
+    // =========================
+    // DELETE
+    // =========================
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        var deleted = await _salleService.DeleteAsync(id);
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSalle(int id)
-        {
-            var salle = await _context.Salles.FindAsync(id);
-            if (salle == null)
-            {
-                return NotFound(new { message = $"La salle avec l'ID {id} n'existe pas" });
-            }
-            _context.Salles.Remove(salle);
-            await _context.SaveChangesAsync();
-            return Ok(new { message = $"La salle avec l'ID {id} a été supprimée avec succès" });
-        }
+        if (!deleted)
+            return NotFound($"Salle avec id {id} introuvable");
 
-        [NonAction]
-        private bool SalleExists(int id)
-        {
-            return _context.Salles.Any(e => e.IdSalle == id);
-        }
+        return NoContent();
+    }
 
-        [NonAction]
-        private SalleResponseDTO MapToResponseDTO(Salle salle)
-        {
-            return new SalleResponseDTO
-            {
-                IdSalle = salle.IdSalle,
-                NomSalle = salle.NomSalle,
-                Capacite = salle.Capacite,
-                TypeSalle = salle.TypeSalle
-            };
-        }
+    // =========================
+    // SEARCH (ULTRA IMPORTANT)
+    // =========================
+    [HttpPost("search")]
+    public async Task<ActionResult<List<SalleResponseDTO>>> Search([FromBody] SalleFilter filter)
+    {
+        var result = await _salleService.SearchAsync(filter);
+        return Ok(result);
+    }
+
+    // =========================
+    // DISPONIBILITE
+    // =========================
+    [HttpGet("disponibilite")]
+    public async Task<ActionResult<bool>> IsDisponible(
+        int idSalle,
+        DateTime jour,
+        TimeSpan heureDebut,
+        TimeSpan heureFin)
+    {
+        var result = await _salleService.IsSalleDisponibleAsync(
+            idSalle,
+            jour,
+            heureDebut,
+            heureFin
+        );
+
+        return Ok(result);
     }
 }

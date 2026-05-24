@@ -12,6 +12,6 @@ namespace GestionSalleEmit.DTOs.Niveau
         public string NomNiveau { get; set; }
 
         [Required(ErrorMessage = "L'ID de la filière est obligatoire")]
-        public int IdFiliere { get; set; }
+        public int IdParcours { get; set; }
     }
 }

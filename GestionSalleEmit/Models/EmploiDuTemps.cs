@@ -25,7 +25,6 @@
         public Matiere Matiere { get; set; }
 
         public int IdNiveau { get; set; }
-
         public Niveau Niveau { get; set; }
     }
 }
