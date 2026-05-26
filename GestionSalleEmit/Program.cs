@@ -1,5 +1,8 @@
 using GestionSalleEmit.Data;
 using GestionSalleEmit.Services;
+using QuestPDF;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -13,6 +16,9 @@ namespace GestionSalleEmit
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Configure QuestPDF license
+            QuestPDF.Settings.License = LicenseType.Community;
 
             // Add DbContext
             builder.Services.AddDbContext<AppDbContext>(options =>
@@ -81,6 +87,17 @@ namespace GestionSalleEmit
                 });
             builder.Services.AddAuthorization();
 
+            builder.Services.AddCors(options => 
+            {
+                options.AddPolicy("AllowFrontend", builder =>
+                {
+                    builder.WithOrigins("http://localhost:5173", "http://localhost:5174")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                }); 
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -90,6 +107,8 @@ namespace GestionSalleEmit
                 app.UseSwaggerUI();
             }
 
+            app.UseRouting();
+            app.UseCors("AllowFrontend");
             app.UseAuthentication();
 
             app.UseHttpsRedirection();

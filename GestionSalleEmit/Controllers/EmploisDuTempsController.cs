@@ -13,9 +13,10 @@ namespace GestionSalleEmit.Controllers
         private readonly IEmploiDuTempsService _service;
         private readonly IExportService _exportService;
 
-        public EmploisDuTempsController(IEmploiDuTempsService service)
+        public EmploisDuTempsController(IEmploiDuTempsService service, IExportService exportService)
         {
             _service = service;
+            _exportService = exportService;
         }
 
         // =========================

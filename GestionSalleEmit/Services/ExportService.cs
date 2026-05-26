@@ -11,6 +11,7 @@ namespace GestionSalleEmit.Services
 
         public byte[] ExportToExcel(List<EmploiDuTempsResponseDTO> data)
         {
+            data ??= new List<EmploiDuTempsResponseDTO>();
             using var workbook = new XLWorkbook();
             var ws = workbook.Worksheets.Add("EmploiDuTemps");
 
@@ -21,6 +22,10 @@ namespace GestionSalleEmit.Services
             ws.Cell(1, 4).Value = "Salle";
             ws.Cell(1, 5).Value = "Enseignant";
             ws.Cell(1, 6).Value = "Matière";
+            ws.Cell(1, 7).Value = "Parcours";
+
+            ws.Range(1, 1, 1, 7).Style.Font.Bold = true;
+            ws.Range(1, 1, 1, 7).Style.Fill.BackgroundColor = XLColor.LightGray;
 
             int row = 2;
 
@@ -29,11 +34,14 @@ namespace GestionSalleEmit.Services
                 ws.Cell(row, 1).Value = item.Jour;
                 ws.Cell(row, 2).Value = item.HeureDebut;
                 ws.Cell(row, 3).Value = item.HeureFin;
-                ws.Cell(row, 4).Value = item.Salle;
-                ws.Cell(row, 5).Value = item.Enseignant;
-                ws.Cell(row, 6).Value = item.Matiere;
+                ws.Cell(row, 4).Value = item.Salle ?? "";
+                ws.Cell(row, 5).Value = item.Enseignant ?? "";
+                ws.Cell(row, 6).Value = item.Matiere ?? "";
+                ws.Cell(row, 7).Value = item.Parcours ?? "";
                 row++;
             }
+
+            ws.Columns().AdjustToContents();
 
             using var stream = new MemoryStream();
             workbook.SaveAs(stream);
@@ -41,8 +49,12 @@ namespace GestionSalleEmit.Services
         }
         public byte[] ExportToPdf(List<EmploiDuTempsResponseDTO> data)
         {
-            var logoPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/emit.png");
-            var logoBytes = File.Exists(logoPath) ? File.ReadAllBytes(logoPath) : null;
+            var logoPath = Path.Combine(_env.WebRootPath, "emit.jpg");
+            byte[] logoBytes = null;
+            if (File.Exists(logoPath))
+            {
+                logoBytes = File.ReadAllBytes(logoPath);
+            }
             var document = Document.Create(container =>
             {
                 container.Page(page =>
@@ -51,7 +63,10 @@ namespace GestionSalleEmit.Services
 
                     page.Header().Row(row =>
                     {
-                        row.ConstantItem(80).Height(60).Image(logoBytes);
+                        if(logoBytes != null)
+                        {
+                            row.ConstantItem(80).Height(60).Image(logoBytes);
+                        }
 
                         row.RelativeItem().Column(col =>
                         {
@@ -77,6 +92,7 @@ namespace GestionSalleEmit.Services
                             columns.RelativeColumn();
                             columns.RelativeColumn();
                             columns.RelativeColumn();
+                            columns.RelativeColumn();
                         });
 
                         // HEADER STYLÉ
@@ -99,6 +115,9 @@ namespace GestionSalleEmit.Services
 
                             header.Cell().Background(Colors.Blue.Medium).Padding(5)
                                 .Text("Matière").FontColor(Colors.White);
+
+                            header.Cell().Background(Colors.Blue.Medium).Padding(5)
+                                .Text("Parcours").FontColor(Colors.White);
                         });
 
                         // LIGNES
@@ -110,6 +129,7 @@ namespace GestionSalleEmit.Services
                             table.Cell().BorderBottom(1).Padding(5).Text(item.Salle ?? "");
                             table.Cell().BorderBottom(1).Padding(5).Text(item.Enseignant ?? "");
                             table.Cell().BorderBottom(1).Padding(5).Text(item.Matiere ?? "");
+                            table.Cell().BorderBottom(1).Padding(5).Text(item.Parcours ?? "");
                         }
                     });
                     page.Footer()
