@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GestionSalleEmit")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f101931027c93cecad70b9a49b171f533be98888")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cf6698b39a7ec73445c901ad274a3657d1880764")]
 [assembly: System.Reflection.AssemblyProductAttribute("GestionSalleEmit")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GestionSalleEmit")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

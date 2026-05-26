@@ -3,12 +3,17 @@ using GestionSalleEmit.DTOs.EmploiDuTemps;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using Microsoft.AspNetCore.Hosting;
 
 namespace GestionSalleEmit.Services
 {
     public class ExportService : IExportService
     {
-
+        private readonly IWebHostEnvironment _env;
+        public ExportService(IWebHostEnvironment env)
+        {
+            _env = env;
+        }
         public byte[] ExportToExcel(List<EmploiDuTempsResponseDTO> data)
         {
             data ??= new List<EmploiDuTempsResponseDTO>();
